@@ -1,39 +1,41 @@
 import CustomCard from '@/components/CustomCard';
-import useListsDatabase from '@/database/useListsDatabase';
+import useItemsDatabase from '@/database/useItemsDatabase';
 import { itemsStyles } from '@/styles/items';
-import { List } from '@/types';
-import { router } from 'expo-router';
+import { Item } from '@/types';
+import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { Button, Dialog, Portal, Snackbar } from 'react-native-paper';
 
-export default function Lists() {
-  const [lists, setLists] = useState<List[]>([]);
-  const [currentListId, setCurrentListId] = useState('');
+export default function DisplayList() {
+  const params = useLocalSearchParams<{ id: string; listName: string }>();
+  const itemsDB = useItemsDatabase();
+  const [items, setItems] = useState<Item[]>([]);
+  const [currentItemId, setCurrentItemId] = useState('');
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [deleteModalIsVisible, setDeleteModalIsVisible] = useState(false);
   const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  const listsDB = useListsDatabase();
 
   useEffect(() => {
-    getLists();
+    getItemsFromList();
   }, []);
 
-  async function getLists() {
+  async function getItemsFromList() {
     try {
-      const response = await listsDB.getAllLists().then(res => {
-        setLists(res);
+      const response = await itemsDB.getItemsFromList(params.id).then(res => {
+        console.log('res => ', res);
+        setItems(res);
       });
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function deleteList(id: string) {
+  async function deleteItemFromList(itemId: string) {
     try {
-      const response = await listsDB.deleteList(id).then(() => {
-        handleSnack(true, 'Lista apagada');
-        getLists();
+      const response = await itemsDB.deleteItemFromList(params.id, itemId).then(() => {
+        handleSnack(true, 'Item removido da lista');
+        getItemsFromList();
       });
     } catch (error) {
       console.log(error);
@@ -41,15 +43,13 @@ export default function Lists() {
   }
 
   function handleDelete() {
-    if (currentListId !== '') {
-      deleteList(currentListId);
-      handleCloseDialog();
-    } else return;
+    deleteItemFromList(currentItemId);
+    handleCloseDialog();
   }
 
   function handleCloseDialog() {
     setDeleteModalIsVisible(false);
-    setCurrentListId('');
+    setCurrentItemId('');
   }
 
   function handleSnack(visible: boolean, message: string) {
@@ -59,33 +59,25 @@ export default function Lists() {
 
   return (
     <View style={itemsStyles.container}>
+      <Text>{params.listName}</Text>
       <FlatList
         contentContainerStyle={itemsStyles.flatList}
-        data={lists}
+        data={items}
         renderItem={({ item, index }) => (
-          <TouchableOpacity
-            onPress={() =>
-              router.navigate({
-                pathname: '/displayList/[id]',
-                params: { id: item.id, listName: item.name },
-              })
-            }
-          >
-            <CustomCard
-              key={index}
-              name={item.name}
-              onPressDelete={() => {
-                setCurrentListId(item.id);
-                setDeleteModalIsVisible(true);
-              }}
-            />
-          </TouchableOpacity>
+          <CustomCard
+            key={index}
+            name={item.name}
+            onPressDelete={() => {
+              setCurrentItemId(item.id);
+              setDeleteModalIsVisible(true);
+            }}
+          />
         )}
       />
 
       <Portal>
         <Dialog visible={deleteModalIsVisible} style={itemsStyles.dialog}>
-          <Dialog.Title>Apagar lista?</Dialog.Title>
+          <Dialog.Title>Remover item da lista?</Dialog.Title>
 
           <Dialog.Actions>
             <Button onPress={handleCloseDialog}>Cancelar</Button>

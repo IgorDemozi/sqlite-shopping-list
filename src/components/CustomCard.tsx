@@ -2,14 +2,14 @@ import { blue, red } from '@/colors';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-type ItemCardProps = {
+type CustomCardProps = {
   name: string;
-  onPressUpdate: () => void;
+  onPressUpdate?: () => void;
   onPressDelete: () => void;
 };
 
 const styles = StyleSheet.create({
-  itemCard: {
+  customCard: {
     padding: 12,
     backgroundColor: blue.light2,
     flexDirection: 'row',
@@ -33,15 +33,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ItemCard({ name, onPressUpdate, onPressDelete }: ItemCardProps) {
+export default function CustomCard({ name, onPressUpdate, onPressDelete }: CustomCardProps) {
   return (
-    <View style={styles.itemCard}>
+    <View style={styles.customCard}>
       <Text>{name}</Text>
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.cardButton} onPress={onPressUpdate}>
-          <FontAwesome size={20} name="pencil" color={blue.dark2} />
-        </TouchableOpacity>
+        {onPressUpdate && (
+          <TouchableOpacity style={styles.cardButton} onPress={onPressUpdate}>
+            <FontAwesome size={20} name="pencil" color={blue.dark2} />
+          </TouchableOpacity>
+        )}
         <TouchableOpacity style={styles.cardButton}>
           <FontAwesome size={20} name="trash" color={red.medium} onPress={onPressDelete} />
         </TouchableOpacity>

@@ -1,6 +1,6 @@
 import CustomButton from '@/components/CustomButton';
+import CustomCard from '@/components/CustomCard';
 import CustomInput from '@/components/CustomInput';
-import ItemCard from '@/components/ItemCard';
 import useItemsDatabase from '@/database/useItemsDatabase';
 import { itemsStyles } from '@/styles/items';
 import { Item } from '@/types';
@@ -94,8 +94,6 @@ export default function Items() {
 
   function handleDelete() {
     if (currentItemId !== '') {
-      console.log('teste handleDelete id => ', currentItemId);
-
       deleteItem(currentItemId);
       handleCloseDialog();
     } else return;
@@ -126,7 +124,7 @@ export default function Items() {
           contentContainerStyle={itemsStyles.flatList}
           data={items}
           renderItem={({ item, index }) => (
-            <ItemCard
+            <CustomCard
               key={index}
               name={item.name}
               onPressUpdate={() => {
