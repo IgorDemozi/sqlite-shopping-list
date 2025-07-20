@@ -51,22 +51,5 @@ export default function useListsDatabase() {
     }
   }
 
-  // async function deleteItemFromList(listId: string, itemId: string) {
-  //   const statement = await database.prepareAsync(
-  //     'DELETE FROM lists_items WHERE listId = $listId AND itemId = $itemId'
-  //   );
-
-  //   try {
-  //     const result = await statement.executeAsync({
-  //       $listId: listId,
-  //       $itemId: itemId,
-  //     });
-  //   } catch (error) {
-  //     throw error;
-  //   } finally {
-  //     await statement.finalizeAsync();
-  //   }
-  // }
-
   return { create, getAllLists, deleteList };
 }

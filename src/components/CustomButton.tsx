@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 type CustomButtonProps = {
   title: string;
-  onPress: () => Promise<void>;
+  onPress: () => Promise<void> | void;
 };
 
 const styles = StyleSheet.create({

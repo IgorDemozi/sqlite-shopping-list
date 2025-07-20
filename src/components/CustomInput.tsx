@@ -25,14 +25,18 @@ export default function CustomInput({ ...rest }: TextInputProps) {
       ref={ref => {
         localInputRef && (localInputRef.current = ref as any);
       }}
-      style={{
-        borderRadius: 8,
-        height: 52,
-        fontSize: 18,
-        lineHeight: 28,
-        paddingHorizontal: 16,
-        backgroundColor: 'white',
-      }}
+      style={
+        rest.style
+          ? rest.style
+          : {
+              borderRadius: 8,
+              height: 52,
+              fontSize: 18,
+              lineHeight: 28,
+              paddingHorizontal: 16,
+              backgroundColor: 'white',
+            }
+      }
     />
   );
 }

@@ -80,6 +80,8 @@ export default function useItemsDatabase() {
       return item;
     } catch (error) {
       throw error;
+    } finally {
+      await statement.finalizeAsync();
     }
   }
 
@@ -111,6 +113,26 @@ export default function useItemsDatabase() {
     }
   }
 
+  async function addItemToList(listId: string, itemId: string) {
+    const statement = await database.prepareAsync(
+      'INSERT INTO lists_items VALUES($id, $listId, $itemId)'
+    );
+
+    try {
+      const newEntryId = uuid.v4();
+
+      const result = await statement.executeAsync({
+        $id: newEntryId,
+        $listId: listId,
+        $itemId: itemId,
+      });
+    } catch (error) {
+      throw error;
+    } finally {
+      await statement.finalizeAsync();
+    }
+  }
+
   async function deleteItemFromList(listId: string, itemId: string) {
     const statement = await database.prepareAsync(
       'DELETE FROM lists_items WHERE listId = $listId AND itemId = $itemId'
@@ -136,5 +158,6 @@ export default function useItemsDatabase() {
     deleteItem,
     getItemsFromList,
     deleteItemFromList,
+    addItemToList,
   };
 }
