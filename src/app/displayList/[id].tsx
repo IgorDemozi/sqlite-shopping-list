@@ -35,10 +35,6 @@ export default function DisplayList() {
     searchItem(search);
   }, [search]);
 
-  useEffect(() => {
-    console.log('selectedItems => ', selectedItems);
-  }, [selectedItems]);
-
   async function getItemsFromList() {
     try {
       const response = await itemsDB.getItemsFromList(params.id).then(res => {
@@ -67,6 +63,7 @@ export default function DisplayList() {
       });
       setSearchModalIsVisible(false);
       getItemsFromList();
+      setSelectedItems([]);
       handleSnack(true, 'Itens adicionados à lista.');
     } catch (error) {
       console.log(error);
