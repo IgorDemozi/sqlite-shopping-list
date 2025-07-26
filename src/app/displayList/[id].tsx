@@ -96,10 +96,6 @@ export default function DisplayList() {
       const response = await itemsDB.searchByName(search).then(res => {
         const listIds = itemsFromList.map(obj => obj.id);
         const filteredItems = res.filter(resItem => !listIds.includes(resItem.id));
-
-        console.log('itemsFromList search => ', itemsFromList);
-        console.log('filteredItems search => ', filteredItems);
-
         setSearchItems(filteredItems);
       });
     } catch (error) {
