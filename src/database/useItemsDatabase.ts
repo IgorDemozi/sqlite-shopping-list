@@ -59,7 +59,7 @@ export default function useItemsDatabase() {
 
   async function getAllItems() {
     try {
-      const query = 'SELECT * FROM items ORDER BY name ASC';
+      const query = 'SELECT * FROM items ORDER BY name COLLATE NOCASE ASC';
       const response = await database.getAllAsync<Item>(query);
 
       return response;
@@ -87,7 +87,7 @@ export default function useItemsDatabase() {
 
   async function searchByName(name: string) {
     try {
-      const query = 'SELECT * FROM items WHERE name LIKE ? ORDER BY name ASC';
+      const query = 'SELECT * FROM items WHERE name LIKE ? ORDER BY name COLLATE NOCASE ASC';
       const response = await database.getAllAsync<Item>(query, `%${name}%`);
 
       return response;

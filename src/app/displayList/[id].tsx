@@ -1,3 +1,4 @@
+import { blue } from '@/colors';
 import CustomButton from '@/components/CustomButton';
 import CustomCard from '@/components/CustomCard';
 import CustomCheckbox from '@/components/CustomCheckbox';
@@ -119,6 +120,32 @@ export default function DisplayList() {
   }
 
   const styles = StyleSheet.create({
+    mainContainer: {
+      flex: 1,
+      backgroundColor: blue.dark2,
+    },
+    secondContainer: {
+      flex: 1,
+      padding: 32,
+      paddingHorizontal: 16,
+      gap: 52,
+      backgroundColor: blue.dark1,
+    },
+    header: {
+      backgroundColor: blue.dark2,
+      height: 64,
+      marginTop: 33,
+      paddingLeft: 16,
+      display: 'flex',
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      textAlign: 'left',
+    },
+    headerText: {
+      color: blue.light1,
+      fontWeight: '600',
+      fontSize: 18,
+    },
     modalInput: {
       borderWidth: 1,
       borderColor: 'black',
@@ -138,77 +165,81 @@ export default function DisplayList() {
   });
 
   return (
-    <View style={itemsStyles.container}>
-      <Text>{params.listName}</Text>
+    <View style={styles.mainContainer}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>{params.listName}</Text>
+      </View>
 
-      <CustomButton onPress={() => setSearchModalIsVisible(true)} title="Adicionar item" />
+      <View style={styles.secondContainer}>
+        <CustomButton onPress={() => setSearchModalIsVisible(true)} title="Adicionar item" />
 
-      <FlatList
-        contentContainerStyle={itemsStyles.flatList}
-        data={itemsFromList}
-        renderItem={({ item, index }) => (
-          <CustomCard
-            key={index}
-            name={item.name}
-            onPressDelete={() => {
-              setCurrentItemId(item.id);
-              setDeleteModalIsVisible(true);
+        <FlatList
+          contentContainerStyle={itemsStyles.flatList}
+          data={itemsFromList}
+          renderItem={({ item, index }) => (
+            <CustomCard
+              key={index}
+              name={item.name}
+              onPressDelete={() => {
+                setCurrentItemId(item.id);
+                setDeleteModalIsVisible(true);
+              }}
+            />
+          )}
+        />
+
+        <Portal>
+          <Dialog visible={searchModalIsVisible} style={itemsStyles.dialog}>
+            <Dialog.Title>Pesquisar item</Dialog.Title>
+
+            <View style={styles.searchDialogView}>
+              <View>
+                <CustomInput onChangeText={setSearch} value={search} style={styles.modalInput} />
+              </View>
+
+              <View>
+                <FlatList
+                  contentContainerStyle={styles.searchDialogFlatList}
+                  data={searchItems}
+                  renderItem={({ item }) => (
+                    <CustomCheckbox item={item} setSelectedItems={setSelectedItems} />
+                  )}
+                />
+              </View>
+
+              <CustomButton title="Adicionar" onPress={() => handleAddItemsToList(selectedItems)} />
+            </View>
+
+            <Dialog.Actions style={{ marginTop: 16 }}>
+              <Button onPress={() => setSearchModalIsVisible(false)}>Voltar</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+
+        <Portal>
+          <Dialog visible={deleteModalIsVisible} style={itemsStyles.dialog}>
+            <Dialog.Title>Remover item da lista?</Dialog.Title>
+
+            <Dialog.Actions>
+              <Button onPress={handleCloseDeleteDialog}>Cancelar</Button>
+              <Button onPress={handleDelete}>Apagar</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+
+        <Portal>
+          <Snackbar
+            visible={isSnackbarVisible}
+            onDismiss={() => setIsSnackbarVisible(false)}
+            duration={2000}
+            action={{
+              label: 'OK',
             }}
-          />
-        )}
-      />
-
-      <Portal>
-        <Dialog visible={searchModalIsVisible} style={itemsStyles.dialog}>
-          <Dialog.Title>Pesquisar item</Dialog.Title>
-
-          <View style={styles.searchDialogView}>
-            <View>
-              <CustomInput onChangeText={setSearch} value={search} style={styles.modalInput} />
-            </View>
-
-            <View>
-              <FlatList
-                contentContainerStyle={styles.searchDialogFlatList}
-                data={searchItems}
-                renderItem={({ item }) => (
-                  <CustomCheckbox item={item} setSelectedItems={setSelectedItems} />
-                )}
-              />
-            </View>
-
-            <CustomButton title="Adicionar" onPress={() => handleAddItemsToList(selectedItems)} />
-          </View>
-
-          <Dialog.Actions style={{ marginTop: 16 }}>
-            <Button onPress={() => setSearchModalIsVisible(false)}>Voltar</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-
-      <Portal>
-        <Dialog visible={deleteModalIsVisible} style={itemsStyles.dialog}>
-          <Dialog.Title>Remover item da lista?</Dialog.Title>
-
-          <Dialog.Actions>
-            <Button onPress={handleCloseDeleteDialog}>Cancelar</Button>
-            <Button onPress={handleDelete}>Apagar</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-
-      <Portal>
-        <Snackbar
-          visible={isSnackbarVisible}
-          onDismiss={() => setIsSnackbarVisible(false)}
-          duration={2000}
-          action={{
-            label: 'OK',
-          }}
-        >
-          {snackbarMessage}
-        </Snackbar>
-      </Portal>
+          >
+            {snackbarMessage}
+          </Snackbar>
+        </Portal>
+      </View>
     </View>
   );
 }

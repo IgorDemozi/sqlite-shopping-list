@@ -28,7 +28,7 @@ export default function useListsDatabase() {
 
   async function getAllLists() {
     try {
-      const query = 'SELECT * FROM lists ORDER BY name ASC';
+      const query = 'SELECT * FROM lists ORDER BY name COLLATE NOCASE ASC';
       const response = await database.getAllAsync<List>(query);
 
       return response;
