@@ -62,9 +62,8 @@ export default function DisplayList() {
       items.forEach(element => {
         addItemToList(element);
       });
-      setSearchModalIsVisible(false);
+      handleCloseSearchDialog();
       getItemsFromList();
-      setSelectedItems([]);
       handleSnack(true, 'Itens adicionados à lista.');
     } catch (error) {
       console.log(error);
@@ -97,6 +96,8 @@ export default function DisplayList() {
       const response = await itemsDB.searchByName(search).then(res => {
         const listIds = itemsFromList.map(obj => obj.id);
         const filteredItems = res.filter(resItem => !listIds.includes(resItem.id));
+        console.log('filtered items =>', filteredItems);
+
         setSearchItems(filteredItems);
       });
     } catch (error) {
@@ -112,6 +113,11 @@ export default function DisplayList() {
   function handleCloseDeleteDialog() {
     setDeleteModalIsVisible(false);
     setCurrentItemId('');
+  }
+
+  function handleCloseSearchDialog() {
+    setSearchModalIsVisible(false);
+    setSelectedItems([]);
   }
 
   function handleSnack(visible: boolean, message: string) {
@@ -202,7 +208,11 @@ export default function DisplayList() {
                   contentContainerStyle={styles.searchDialogFlatList}
                   data={searchItems}
                   renderItem={({ item }) => (
-                    <CustomCheckbox item={item} setSelectedItems={setSelectedItems} />
+                    <CustomCheckbox
+                      item={item}
+                      selectedItems={selectedItems}
+                      setSelectedItems={setSelectedItems}
+                    />
                   )}
                 />
               </View>
@@ -211,7 +221,7 @@ export default function DisplayList() {
             </View>
 
             <Dialog.Actions style={{ marginTop: 16 }}>
-              <Button onPress={() => setSearchModalIsVisible(false)}>Voltar</Button>
+              <Button onPress={handleCloseSearchDialog}>Voltar</Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>

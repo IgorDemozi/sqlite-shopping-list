@@ -5,11 +5,22 @@ import { Checkbox } from 'react-native-paper';
 
 interface CustomCheckboxProps {
   item: Item;
+  selectedItems: Item[];
   setSelectedItems: React.Dispatch<React.SetStateAction<Item[]>>;
 }
 
-export default function CustomCheckbox({ item, setSelectedItems }: CustomCheckboxProps) {
+export default function CustomCheckbox({
+  item,
+  selectedItems,
+  setSelectedItems,
+}: CustomCheckboxProps) {
   const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    if (selectedItems.some(select => select.id === item.id)) {
+      setChecked(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (checked) {
