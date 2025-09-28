@@ -18,8 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/android/mipmap-mdpi/icon.png",
-        "backgroundColor": "#19376D"
+        "foregroundImage": "./assets/icons/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.igordemozi.sqliteshoppinglist"
@@ -29,7 +28,23 @@
       "output": "static",
       "favicon": "./assets/images/android/mipmap-mdpi/icon.png"
     },
-    "plugins": ["expo-router", "expo-sqlite"],
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#fff",
+          "image": "./assets/icons/splash-icon-dark.png",
+          "resizeMode": "contain",
+          "imageWidth": 200,
+          "dark": {
+            "image": "./assets/icons/splash-icon-light.png",
+            "backgroundColor": "#000000"
+          }
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },
