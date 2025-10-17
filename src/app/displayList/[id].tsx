@@ -96,8 +96,6 @@ export default function DisplayList() {
       const response = await itemsDB.searchByName(search).then(res => {
         const listIds = itemsFromList.map(obj => obj.id);
         const filteredItems = res.filter(resItem => !listIds.includes(resItem.id));
-        console.log('filtered items =>', filteredItems);
-
         setSearchItems(filteredItems);
       });
     } catch (error) {
@@ -168,6 +166,10 @@ export default function DisplayList() {
     searchDialogFlatList: {
       gap: 12,
     },
+
+    searchDialogItemListView: {
+      maxHeight: '40%',
+    },
   });
 
   return (
@@ -203,7 +205,7 @@ export default function DisplayList() {
                 <CustomInput onChangeText={setSearch} value={search} style={styles.modalInput} />
               </View>
 
-              <View>
+              <View style={{ maxHeight: 170 }}>
                 <FlatList
                   contentContainerStyle={styles.searchDialogFlatList}
                   data={searchItems}
@@ -217,7 +219,12 @@ export default function DisplayList() {
                 />
               </View>
 
-              <CustomButton title="Adicionar" onPress={() => handleAddItemsToList(selectedItems)} />
+              <View style={{ alignSelf: 'stretch' }}>
+                <CustomButton
+                  title="Adicionar"
+                  onPress={() => handleAddItemsToList(selectedItems)}
+                />
+              </View>
             </View>
 
             <Dialog.Actions style={{ marginTop: 16 }}>
