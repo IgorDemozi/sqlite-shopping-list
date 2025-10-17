@@ -20,7 +20,10 @@ export const itemsStyles = StyleSheet.create({
   flatList: {
     gap: 16,
   },
-  dialog: { backgroundColor: 'white' },
+  dialog: {
+    backgroundColor: 'white',
+    maxHeight: '60%',
+  },
   dialogInput: {
     borderRadius: 8,
     height: 52,

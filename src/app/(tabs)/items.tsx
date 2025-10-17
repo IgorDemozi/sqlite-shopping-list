@@ -5,7 +5,7 @@ import useItemsDatabase from '@/database/useItemsDatabase';
 import { itemsStyles } from '@/styles/items';
 import { Item } from '@/types';
 import React, { useEffect, useState } from 'react';
-import { FlatList, TextInput, View } from 'react-native';
+import { FlatList, Keyboard, TextInput, View } from 'react-native';
 import { Button, Dialog, Portal, Snackbar } from 'react-native-paper';
 
 export default function Items() {
@@ -35,6 +35,7 @@ export default function Items() {
           setItemInput('');
           handleSnack(true, 'Dados salvos!');
           getItems();
+          Keyboard.dismiss();
         });
       } else return;
     } catch (error) {
