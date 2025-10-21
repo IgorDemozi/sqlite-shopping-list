@@ -4,12 +4,12 @@
     "slug": "sqlite-shopping-list",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/android/mipmap-mdpi/icon.png",
+    "icon": "./assets/icons/adaptive-icon.png",
     "scheme": "sqliteshoppinglist",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/android/mipmap-hdpi/icon.png",
+      "image": "./assets/icons/adaptive-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#19376D"
     },
@@ -26,7 +26,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/android/mipmap-mdpi/icon.png"
+      "favicon": "./assets/icons/adaptive-icon.png"
     },
     "plugins": [
       "expo-router",
@@ -43,7 +43,8 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
