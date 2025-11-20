@@ -6,6 +6,11 @@ export const blue = {
   dark2: '#0B2447',
 };
 
+export const violet = {
+  light: '#e6d5fcff',
+  medium: '#d0a4fce7',
+};
+
 export const red = {
   medium: '#ff0000',
 };

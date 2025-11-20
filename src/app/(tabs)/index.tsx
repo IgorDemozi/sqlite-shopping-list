@@ -1,3 +1,4 @@
+import { violet } from '@/colors';
 import CustomButton from '@/components/CustomButton';
 import CustomCard from '@/components/CustomCard';
 import CustomInput from '@/components/CustomInput';
@@ -94,7 +95,11 @@ export default function Lists() {
     <View style={itemsStyles.container}>
       <StatusBar barStyle="light-content" />
 
-      <CustomButton onPress={() => setNewListModalIsVisible(true)} title="Nova lista" />
+      <CustomButton
+        bgColor={violet.light}
+        onPress={() => setNewListModalIsVisible(true)}
+        title="Nova lista"
+      />
 
       <FlatList
         contentContainerStyle={itemsStyles.flatList}
@@ -111,6 +116,7 @@ export default function Lists() {
             <CustomCard
               key={index}
               name={item.name}
+              bgColor={violet.medium}
               onPressDelete={() => {
                 setCurrentListId(item.id);
                 setDeleteModalIsVisible(true);

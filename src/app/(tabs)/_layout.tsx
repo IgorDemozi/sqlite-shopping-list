@@ -31,7 +31,6 @@ export default function TabLayout() {
         tabBarActiveTintColor: blue.dark2,
         tabBarInactiveTintColor: blue.medium,
         tabBarActiveBackgroundColor: blue.light1,
-        // tabBarInactiveBackgroundColor: blue.light1,
         headerTintColor: blue.light1,
         transitionSpec: { animation: 'spring', config: { bounciness: 0, speed: 20 } },
         animation: 'shift',
