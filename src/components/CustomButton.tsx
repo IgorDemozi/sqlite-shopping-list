@@ -1,5 +1,5 @@
 import { blue } from '@/colors';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Vibration } from 'react-native';
 
 type CustomButtonProps = {
   title: string;
@@ -18,7 +18,13 @@ export default function CustomButton({ onPress, title, bgColor = blue.light1 }: 
     },
   });
   return (
-    <TouchableOpacity onPress={onPress} style={styles.customButton}>
+    <TouchableOpacity
+      onPress={() => {
+        Vibration.vibrate(15);
+        onPress();
+      }}
+      style={styles.customButton}
+    >
       <Text>{title}</Text>
     </TouchableOpacity>
   );

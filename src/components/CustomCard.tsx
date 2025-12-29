@@ -1,6 +1,6 @@
 import { blue, red } from '@/colors';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native';
 
 type CustomCardProps = {
   name: string;
@@ -46,12 +46,26 @@ export default function CustomCard({
 
       <View style={styles.buttonsContainer}>
         {onPressUpdate && (
-          <TouchableOpacity style={styles.cardButton} onPress={onPressUpdate}>
+          <TouchableOpacity
+            style={styles.cardButton}
+            onPress={() => {
+              Vibration.vibrate(15);
+              onPressUpdate();
+            }}
+          >
             <FontAwesome size={20} name="pencil" color={blue.dark2} />
           </TouchableOpacity>
         )}
         <TouchableOpacity style={styles.cardButton}>
-          <FontAwesome size={20} name="trash" color={red.medium} onPress={onPressDelete} />
+          <FontAwesome
+            size={20}
+            name="trash"
+            color={red.medium}
+            onPress={() => {
+              Vibration.vibrate(15);
+              onPressDelete();
+            }}
+          />
         </TouchableOpacity>
       </View>
     </View>

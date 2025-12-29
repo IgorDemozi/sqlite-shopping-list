@@ -7,7 +7,7 @@ import { itemsStyles } from '@/styles/items';
 import { List } from '@/types';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { FlatList, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, StatusBar, StyleSheet, TouchableOpacity, Vibration, View } from 'react-native';
 import { Button, Dialog, Portal, Snackbar } from 'react-native-paper';
 
 export default function Lists() {
@@ -59,6 +59,7 @@ export default function Lists() {
   }
 
   function handleDelete() {
+    Vibration.vibrate(15);
     if (currentListId !== '') {
       deleteList(currentListId);
       handleCloseDeleteDialog();
@@ -66,6 +67,7 @@ export default function Lists() {
   }
 
   function handleCloseDeleteDialog() {
+    Vibration.vibrate(15);
     setDeleteModalIsVisible(false);
     setCurrentListId('');
   }
@@ -106,12 +108,13 @@ export default function Lists() {
         data={lists}
         renderItem={({ item, index }) => (
           <TouchableOpacity
-            onPress={() =>
+            onPress={() => {
+              Vibration.vibrate(15);
               router.navigate({
                 pathname: '/displayList/[id]',
                 params: { id: item.id, listName: item.name },
-              })
-            }
+              });
+            }}
           >
             <CustomCard
               key={index}
@@ -127,7 +130,12 @@ export default function Lists() {
       />
 
       <Portal>
-        <Dialog visible={newListModalIsVisible} style={itemsStyles.dialog}>
+        <Dialog
+          visible={newListModalIsVisible}
+          style={itemsStyles.dialog}
+          dismissableBackButton={true}
+          onDismiss={() => setNewListModalIsVisible(false)}
+        >
           <Dialog.Title>Criar nova lista</Dialog.Title>
 
           <View style={styles.newListDialogView}>
@@ -144,18 +152,44 @@ export default function Lists() {
           </View>
 
           <Dialog.Actions style={{ marginTop: 16 }}>
-            <Button onPress={() => setNewListModalIsVisible(false)}>Voltar</Button>
+            <Button
+              onPress={() => {
+                Vibration.vibrate(15);
+                setNewListModalIsVisible(false);
+              }}
+            >
+              Voltar
+            </Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
 
       <Portal>
-        <Dialog visible={deleteModalIsVisible} style={itemsStyles.dialog}>
+        <Dialog
+          visible={deleteModalIsVisible}
+          style={itemsStyles.dialog}
+          dismissableBackButton={true}
+          onDismiss={handleCloseDeleteDialog}
+        >
           <Dialog.Title>Apagar lista?</Dialog.Title>
 
           <Dialog.Actions>
-            <Button onPress={handleCloseDeleteDialog}>Cancelar</Button>
-            <Button onPress={handleDelete}>Apagar</Button>
+            <Button
+              onPress={() => {
+                Vibration.vibrate(15);
+                handleCloseDeleteDialog();
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              onPress={() => {
+                Vibration.vibrate(15);
+                handleDelete();
+              }}
+            >
+              Apagar
+            </Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>

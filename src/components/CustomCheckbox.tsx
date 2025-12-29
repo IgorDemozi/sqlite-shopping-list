@@ -1,6 +1,6 @@
 import { Item } from '@/types';
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, Vibration, View } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 
 interface CustomCheckboxProps {
@@ -35,6 +35,7 @@ export default function CustomCheckbox({
       <Checkbox
         status={checked ? 'checked' : 'unchecked'}
         onPress={() => {
+          Vibration.vibrate(15);
           setChecked(!checked);
         }}
       />
