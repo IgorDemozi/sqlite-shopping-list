@@ -8,7 +8,7 @@ import { itemsStyles } from '@/styles/items';
 import { Item } from '@/types';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, Vibration, View } from 'react-native';
 import { Button, Dialog, Portal, Snackbar } from 'react-native-paper';
 
 export default function DisplayList() {
@@ -197,7 +197,12 @@ export default function DisplayList() {
         />
 
         <Portal>
-          <Dialog visible={searchModalIsVisible} style={itemsStyles.dialog}>
+          <Dialog
+            visible={searchModalIsVisible}
+            style={itemsStyles.dialog}
+            dismissableBackButton={true}
+            onDismiss={handleCloseSearchDialog}
+          >
             <Dialog.Title>Pesquisar item</Dialog.Title>
 
             <View style={styles.searchDialogView}>
@@ -228,18 +233,44 @@ export default function DisplayList() {
             </View>
 
             <Dialog.Actions style={{ marginTop: 16 }}>
-              <Button onPress={handleCloseSearchDialog}>Voltar</Button>
+              <Button
+                onPress={() => {
+                  Vibration.vibrate(15);
+                  handleCloseSearchDialog();
+                }}
+              >
+                Voltar
+              </Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
 
         <Portal>
-          <Dialog visible={deleteModalIsVisible} style={itemsStyles.dialog}>
+          <Dialog
+            visible={deleteModalIsVisible}
+            style={itemsStyles.dialog}
+            dismissableBackButton={true}
+            onDismiss={handleCloseDeleteDialog}
+          >
             <Dialog.Title>Remover item da lista?</Dialog.Title>
 
             <Dialog.Actions>
-              <Button onPress={handleCloseDeleteDialog}>Cancelar</Button>
-              <Button onPress={handleDelete}>Apagar</Button>
+              <Button
+                onPress={() => {
+                  Vibration.vibrate(15);
+                  handleCloseDeleteDialog();
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button
+                onPress={() => {
+                  Vibration.vibrate(15);
+                  handleDelete();
+                }}
+              >
+                Apagar
+              </Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>

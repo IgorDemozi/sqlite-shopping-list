@@ -5,7 +5,7 @@ import useItemsDatabase from '@/database/useItemsDatabase';
 import { itemsStyles } from '@/styles/items';
 import { Item } from '@/types';
 import React, { useEffect, useState } from 'react';
-import { FlatList, Keyboard, TextInput, View } from 'react-native';
+import { FlatList, Keyboard, TextInput, Vibration, View } from 'react-native';
 import { Button, Dialog, Portal, Snackbar } from 'react-native-paper';
 
 export default function Items() {
@@ -29,6 +29,7 @@ export default function Items() {
   }, [search]);
 
   async function create() {
+    Vibration.vibrate(15);
     try {
       if (itemInput !== '') {
         const response = await itemsDB.create(itemInput).then(() => {
@@ -87,6 +88,7 @@ export default function Items() {
   }
 
   function handleUpdate() {
+    Vibration.vibrate(15);
     if (currentItemId !== '') {
       update({ id: currentItemId, name: updateInput });
       handleCloseDialog();
@@ -94,6 +96,7 @@ export default function Items() {
   }
 
   function handleDelete() {
+    Vibration.vibrate(15);
     if (currentItemId !== '') {
       deleteItem(currentItemId);
       handleCloseDialog();
@@ -101,6 +104,7 @@ export default function Items() {
   }
 
   function handleCloseDialog() {
+    // Vibration.vibrate(15);
     setUpdateModalIsVisible(false);
     setDeleteModalIsVisible(false);
     setCurrentItemId('');
@@ -143,7 +147,12 @@ export default function Items() {
       </View>
 
       <Portal>
-        <Dialog visible={updateModalIsVisible} style={itemsStyles.dialog}>
+        <Dialog
+          visible={updateModalIsVisible}
+          style={itemsStyles.dialog}
+          dismissableBackButton={true}
+          onDismiss={handleCloseDialog}
+        >
           <Dialog.Title>Editar item</Dialog.Title>
           <Dialog.Content>
             <TextInput
@@ -154,19 +163,52 @@ export default function Items() {
             />
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={handleCloseDialog}>Cancelar</Button>
-            <Button onPress={handleUpdate}>Salvar</Button>
+            <Button
+              onPress={() => {
+                Vibration.vibrate(15);
+                handleCloseDialog();
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              onPress={() => {
+                Vibration.vibrate(15);
+                handleUpdate();
+              }}
+            >
+              Salvar
+            </Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
 
       <Portal>
-        <Dialog visible={deleteModalIsVisible} style={itemsStyles.dialog}>
+        <Dialog
+          visible={deleteModalIsVisible}
+          style={itemsStyles.dialog}
+          dismissableBackButton={true}
+          onDismiss={handleCloseDialog}
+        >
           <Dialog.Title>Apagar item?</Dialog.Title>
 
           <Dialog.Actions>
-            <Button onPress={handleCloseDialog}>Cancelar</Button>
-            <Button onPress={handleDelete}>Apagar</Button>
+            <Button
+              onPress={() => {
+                Vibration.vibrate(15);
+                handleCloseDialog();
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              onPress={() => {
+                Vibration.vibrate(15);
+                handleUpdate();
+              }}
+            >
+              Apagar
+            </Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
