@@ -25,7 +25,7 @@ export default function CustomButton({ onPress, title, bgColor = blue.light1 }: 
       }}
       style={styles.customButton}
     >
-      <Text>{title}</Text>
+      <Text selectable={true}>{title}</Text>
     </TouchableOpacity>
   );
 }

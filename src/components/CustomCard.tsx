@@ -42,7 +42,7 @@ export default function CustomCard({
 
   return (
     <View style={styles.customCard}>
-      <Text>{name}</Text>
+      <Text selectable={true}>{name}</Text>
 
       <View style={styles.buttonsContainer}>
         {onPressUpdate && (

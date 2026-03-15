@@ -175,7 +175,9 @@ export default function DisplayList() {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>{params.listName}</Text>
+        <Text selectable={true} style={styles.headerText}>
+          {params.listName}
+        </Text>
       </View>
 
       <View style={styles.secondContainer}>

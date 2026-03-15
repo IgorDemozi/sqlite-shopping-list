@@ -39,7 +39,7 @@ export default function CustomCheckbox({
           setChecked(!checked);
         }}
       />
-      <Text>{item.name}</Text>
+      <Text selectable={true}>{item.name}</Text>
     </View>
   );
 }

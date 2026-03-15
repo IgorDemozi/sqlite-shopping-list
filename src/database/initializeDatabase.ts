@@ -17,7 +17,8 @@ export async function initializeDatabase(database: SQLiteDatabase) {
   await database.execAsync(`
      CREATE TABLE IF NOT EXISTS items (
         id varchar(36) PRIMARY KEY,
-        name TEXT NOT NULL
+        name TEXT NOT NULL,
+        nameNormalized TEXT NOT NULL
      );
      `);
 
@@ -39,12 +40,12 @@ export async function initializeDatabase(database: SQLiteDatabase) {
   //          `);
 
   //   await database.execAsync(`
-  //          INSERT INTO items VALUES (1111, 'banana');
-  //          INSERT INTO items VALUES (2222, 'canela');
-  //          INSERT INTO items VALUES (3333, 'pimenta');
-  //          INSERT INTO items VALUES (4444, 'aveia');
-  //          INSERT INTO items VALUES (5555, 'laranja');
-  //          `);
+  //            INSERT INTO items VALUES (1111, 'banana', 'banana');
+  //            INSERT INTO items VALUES (2222, 'canela', 'canela');
+  //            INSERT INTO items VALUES (3333, 'pimentão', 'pimentao');
+  //            INSERT INTO items VALUES (4444, 'aveia', 'aveia');
+  //            INSERT INTO items VALUES (5555, 'laranja', 'laranja');
+  //            `);
 
   //   await database.execAsync(`
   //          INSERT INTO lists_items VALUES (123, 12345, 1111);

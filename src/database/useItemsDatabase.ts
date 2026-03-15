@@ -7,7 +7,7 @@ export default function useItemsDatabase() {
 
   async function create(name: string) {
     const statement = await database.prepareAsync(
-      'INSERT INTO items (id, name) VALUES ($id, $name)'
+      'INSERT INTO items (id, name, nameNormalized) VALUES ($id, $name)'
     );
 
     try {
@@ -16,6 +16,7 @@ export default function useItemsDatabase() {
       const result = await statement.executeAsync({
         $id: insertedItemId,
         $name: name,
+        $nameNormalized: name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
       });
 
       const insertedRowId = result.lastInsertRowId.toString();
@@ -29,12 +30,15 @@ export default function useItemsDatabase() {
   }
 
   async function update(data: Item) {
-    const statement = await database.prepareAsync('UPDATE items SET name = $name WHERE id = $id');
+    const statement = await database.prepareAsync(
+      'UPDATE items SET name = $name, nameNormalized = $nameNormalized WHERE id = $id'
+    );
 
     try {
       const result = await statement.executeAsync({
         $id: data.id,
         $name: data.name,
+        $nameNormalized: data.name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
       });
     } catch (error) {
       throw error;
@@ -87,8 +91,10 @@ export default function useItemsDatabase() {
 
   async function searchByName(name: string) {
     try {
-      const query = 'SELECT * FROM items WHERE name LIKE ? ORDER BY name COLLATE NOCASE ASC';
-      const response = await database.getAllAsync<Item>(query, `%${name}%`);
+      const normalizedNameParam = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const query =
+        'SELECT * FROM items WHERE nameNormalized LIKE ? ORDER BY name COLLATE NOCASE ASC';
+      const response = await database.getAllAsync<Item>(query, `%${normalizedNameParam}%`);
 
       return response;
     } catch (error) {
