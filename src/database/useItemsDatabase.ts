@@ -7,7 +7,7 @@ export default function useItemsDatabase() {
 
   async function create(name: string) {
     const statement = await database.prepareAsync(
-      'INSERT INTO items (id, name, nameNormalized) VALUES ($id, $name)'
+      'INSERT INTO items (id, name, nameNormalized) VALUES ($id, $name, $nameNormalized)'
     );
 
     try {

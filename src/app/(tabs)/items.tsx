@@ -104,7 +104,6 @@ export default function Items() {
   }
 
   function handleCloseDialog() {
-    // Vibration.vibrate(15);
     setUpdateModalIsVisible(false);
     setDeleteModalIsVisible(false);
     setCurrentItemId('');
@@ -204,7 +203,7 @@ export default function Items() {
             <Button
               onPress={() => {
                 Vibration.vibrate(15);
-                handleUpdate();
+                handleDelete();
               }}
             >
               Apagar

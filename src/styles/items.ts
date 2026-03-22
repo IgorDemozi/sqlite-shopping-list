@@ -23,6 +23,7 @@ export const itemsStyles = StyleSheet.create({
   dialog: {
     backgroundColor: 'white',
     maxHeight: '60%',
+    marginBottom: '30%',
   },
   dialogInput: {
     borderRadius: 8,
