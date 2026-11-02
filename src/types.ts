@@ -14,3 +14,7 @@ export type ListItem = {
   listId: string;
   itemId: string;
 };
+
+export type SchemaVersion = {
+  value: number;
+};
